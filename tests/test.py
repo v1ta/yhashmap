@@ -126,6 +126,21 @@ class HashMapTestSuite(unittest.TestCase):
 
         self.assertTrue(float(diff.total_seconds()) < 1.0)
 
+    def test_invalid_keys(self):
+        """ Test keys which don't exist or have been removed """
+        hmap = Hashmap()
+
+        objs = [(str(uuid.uuid1()), random_string(10))] * 3
+
+        for obj in objs:
+            hmap.insert(obj[0], obj[1])
+
+        #  Valid key
+        self.assertEqual(hmap.search(objs[0][0]), objs[0])
+
+        #  Invalid key
+        self.assertIsNone(hmap.search('bad key'))
+
 def random_string(length):
     """
     :param length: an int representing the length of the random string
