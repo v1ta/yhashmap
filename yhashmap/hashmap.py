@@ -72,7 +72,7 @@ class Hashmap(object):
 
     def hash_code(self, key):
         """
-        :param key: A string uniquley identifying an object
+        :param key: A string uniquely identifying an object
         :return: a hash value
         """
         return (sum([ord(ch) * 128 for ch in key])) % self.size
