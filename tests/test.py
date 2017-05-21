@@ -92,7 +92,7 @@ class HashMapTestSuite(unittest.TestCase):
         for _ in range(100):
             hmap.insert(str(uuid.uuid1()), random_string(10))
 
-        self.assertEqual(hmap.size, 223)
+        self.assertEqual(hmap.size, 241)
 
     def test_delete(self):
         """
@@ -105,8 +105,6 @@ class HashMapTestSuite(unittest.TestCase):
 
         for obj in objs:
             hmap.insert(obj[0], obj[1])
-
-        for obj in objs:
             self.assertEqual(hmap.search(obj[0]), obj)
 
         for obj in objs:

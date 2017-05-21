@@ -18,6 +18,8 @@ class Hashmap(object):
         self.loadfactor = loadfactor
         self.table = [None] * self.size
         self.obj_count = 0
+        self.primes = [2] #  cache primes so they aren't recalculated per resize
+        self.not_prime = set() #  cache composites " " " " " "
 
     def __str__(self):
         map_as_str = []
@@ -34,6 +36,10 @@ class Hashmap(object):
         :param key: A string to access the corresponding object
         :param object: An object to store in the hash map
         """
+        #  Stop users from using keys which are absurdly large,
+        #  This has the side effect of making hash_code O(k) -> O(1)
+        if len(key) > 36:
+            return
         self.resize()
 
         if self.table[self.hash_code(key)] is None:
@@ -68,7 +74,7 @@ class Hashmap(object):
         :param key: A string uniquley identifying an object
         :return: a hash value
         """
-        return (sum([ord(ch) for ch in key]) * 128) % self.size
+        return (sum([ord(ch) * 128 for ch in key])) % self.size
 
     def resize(self):
         """
@@ -93,16 +99,14 @@ class Hashmap(object):
         :return: The largest prime number <= limit
         """
         limitn = limit+1
-        not_prime = set()
-        primes = []
 
-        for i in range(2, limitn):
-            if i in not_prime:
+        for i in range(self.primes[len(self.primes) - 1], limitn):
+            if i in self.not_prime:
                 continue
 
             for num in range(i*2, limitn, i):
-                not_prime.add(num)
+                self.not_prime.add(num)
 
-            primes.append(i)
+            self.primes.append(i)
 
-        return primes[len(primes) - 1]
+        return self.primes[len(self.primes) - 1]
