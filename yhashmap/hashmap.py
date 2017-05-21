@@ -40,7 +40,8 @@ class Hashmap(object):
         #  This has the side effect of making hash_code O(k) -> O(1)
         if len(key) > 36:
             return
-        self.resize()
+        elif self.obj_count / self.size > self.loadfactor:
+            self.resize()
 
         if self.table[self.hash_code(key)] is None:
             self.table[self.hash_code(key)] = DLinkedList()
@@ -80,9 +81,6 @@ class Hashmap(object):
         """
         Resize the hash map if the threshold is met
         """
-        if self.obj_count / self.size < self.loadfactor:
-            return
-
         self.size = self.sieve_of_eratosthenes(self.size * 2)
         new_map = [None] * self.size
 
