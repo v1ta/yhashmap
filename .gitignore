@@ -1,0 +1,18 @@
+# venv
+.Python
+include
+lib
+bin
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# logs
+pip-selfcheck.json
+
+# setuptools
+/*.egg-info
+dist
+
+__pycache__
